@@ -29,7 +29,10 @@ st.dataframe(fruit_to_show)
 # New Section to disply fruityvice api responce
 st.header('Fruityvice Fruit Advice!')
 
-fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + "kiwi")
+fruit_choice = st.text_input('What fruit would you like information about?', 'Kiwi')
+st.write('The user entered', fruit_choice)
+
+fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + fruit_choice)
 
 # take the json response and normalize it
 fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
