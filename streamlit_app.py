@@ -47,3 +47,6 @@ with scon.connect(**st.secrets["snowflake"]) as con:
   sf_data = cur.fetchall()
   st.header("The fruit load list contains:")
   st.dataframe(sf_data)
+
+add_fruit = st.text_input(r'What fruit would you like to add?', 'Jackfruit')
+st.text('Thanks for adding ' + add_fruit)
