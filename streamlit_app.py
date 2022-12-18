@@ -4,8 +4,8 @@ import requests as r
 import snowflake.connector as scon
 from urllib.error  import URLError
 
-def get_fruityvice_data(_fruit_choice):
-  fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + _fruit_choice)
+def get_fruityvice_data(new_fruit_choice):
+  fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + new_fruit_choice)
   # take the json response and normalize it
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
   return fruityvice_normalized
@@ -16,6 +16,13 @@ def get_fruit_load_list():
     cur = con.cursor()
     cur.execute("select * from fruit_load_list")
     return cur.fetchall()
+  
+#  insert data into fruit_load_list table in snowflake
+def insert_row_snowflake(new_fruit):
+  with scon.connect(**st.secrets['snowflake']) as con:
+    cur = con.cursor()
+    cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
+    return "Thanks for adding " + new_fruit
 
 st.title('My Mom\'s New Healthy Diner')
 
@@ -57,4 +64,6 @@ if st.button('Get Fruit Load List'):
   st.dataframe(sf_data)
 
 add_fruit = st.text_input(r'What fruit would you like to add?', 'Jackfruit')
-st.text('Thanks for adding ' + add_fruit)
+if st.button('Add a Fruit to the List'):
+  add_fruit_output = insert_row_snowflake(add_fruit)
+  st.text(add_fruit_output)
