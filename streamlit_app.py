@@ -4,6 +4,12 @@ import requests as r
 import snowflake.connector as scon
 from urllib.error  import URLError
 
+def get_fruityvice_data(_fruit_choice):
+  fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + _fruit_choice)
+  # take the json response and normalize it
+  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+  retrun fruityvice_normalized
+
 st.title('My Mom\'s New Healthy Diner')
 
 st.header('Breakfast Favorites')
@@ -34,10 +40,7 @@ st.header('Fruityvice Fruit Advice!')
 fruit_choice = st.text_input('What fruit would you like information about?', 'Kiwi')
 st.write('The user entered', fruit_choice)
 
-fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + fruit_choice)
-
-# take the json response and normalize it
-fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+fruityvice_normalized = get_fruityvice_data(fruit_choice)
 
 # output it as table
 st.dataframe(fruityvice_normalized)
