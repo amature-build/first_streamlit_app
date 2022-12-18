@@ -8,7 +8,7 @@ def get_fruityvice_data(_fruit_choice):
   fruityvice_response = r.get(r"https://fruityvice.com/api/fruit/" + _fruit_choice)
   # take the json response and normalize it
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
-  retrun fruityvice_normalized
+  return fruityvice_normalized
 
 st.title('My Mom\'s New Healthy Diner')
 
