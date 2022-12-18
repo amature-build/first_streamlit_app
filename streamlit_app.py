@@ -52,7 +52,7 @@ fruityvice_normalized = get_fruityvice_data(fruit_choice)
 # output it as table
 st.dataframe(fruityvice_normalized)
 
-if streamlist.button('Get Fruit Load List'):
+if st.button('Get Fruit Load List'):
   sf_data = get_fruit_load_list()
   st.dataframe(sf_data)
 
