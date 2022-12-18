@@ -10,6 +10,13 @@ def get_fruityvice_data(_fruit_choice):
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
   return fruityvice_normalized
 
+# extract list from snowflake
+def get_fruit_load_list():
+  with scon.connect(**st.secrets["snowflake"]) as con:
+    cur = con.cursor()
+    cur.execute("select * from fruit_load_list")
+    return cur.fetchall()
+
 st.title('My Mom\'s New Healthy Diner')
 
 st.header('Breakfast Favorites')
@@ -45,11 +52,8 @@ fruityvice_normalized = get_fruityvice_data(fruit_choice)
 # output it as table
 st.dataframe(fruityvice_normalized)
 
-with scon.connect(**st.secrets["snowflake"]) as con:
-  cur = con.cursor()
-  cur.execute("select * from fruit_load_list")
-  sf_data = cur.fetchall()
-  st.header("The fruit load list contains:")
+if streamlist.button('Get Fruit Load List'):
+  sf_data = get_fruit_load_list()
   st.dataframe(sf_data)
 
 add_fruit = st.text_input(r'What fruit would you like to add?', 'Jackfruit')
