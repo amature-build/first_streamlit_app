@@ -59,7 +59,8 @@ fruityvice_normalized = get_fruityvice_data(fruit_choice)
 # output it as table
 st.dataframe(fruityvice_normalized)
 
-if st.button('Get Fruit Load List'):
+st.header('View Our Fruit List - Add Your Favorites!')
+if st.button('Get Fruit List'):
   sf_data = get_fruit_load_list()
   st.dataframe(sf_data)
 
