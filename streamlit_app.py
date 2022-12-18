@@ -45,5 +45,5 @@ with scon.connect(**st.secrets["snowflake"]) as con:
   cur = con.cursor()
   cur.execute("select * from fruit_load_list")
   sf_data = cur.fetchone()
-  st.text("The fruit load list contains:")
-  st.text(sf_data)
+  st.header("The fruit load list contains:")
+  st.dataframe(sf_data)
